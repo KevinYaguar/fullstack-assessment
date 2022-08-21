@@ -23,7 +23,7 @@ export const Options = (props) => {
                         )
                     })
                 }
-                <SelectOption option={props.option} type={optionType} key={0}/>
+                {props.isNewQuestion && !props.optionsCompleted && (<SelectOption option={props.option} type={optionType} key={0}/>)}
             </div>
         )
     } else {

@@ -2,17 +2,22 @@ import React from 'react';
 import { Options } from './Options';
 
 const Question = (props) => {
-    return (
-        <div className="flex flex-col">
-            <span className="font-semibold text-black">{props.questionName}</span>
-            <Options 
-                type={props.type} 
-                optionTypes={props.optionTypes} 
-                options={props.options}
-                option={props.option}
-            />
-        </div>
-    )
+
+    if(!props.questionsCompleted) {
+        return (
+            <div className="flex flex-col">
+                <span className="font-semibold text-black">{props.questionName}</span>
+                <Options 
+                    type={props.type} 
+                    optionTypes={props.optionTypes} 
+                    options={props.options}
+                    option={props.option}
+                    isNewQuestion={props.isNewQuestion}
+                    optionsCompleted={props.optionsCompleted}
+                />
+            </div>
+        )
+    }
 }
 
 export const Survey = (props) => {
@@ -31,24 +36,56 @@ export const Survey = (props) => {
             <span className="mb-[25px] text-black">
                 {props.description}
             </span>
-            <Question 
+            {props.questions.map((e, i)=> {
+
+                return (
+                    <Question
+                        questionName={e.questionName}
+                        type={e.type} 
+                        optionTypes={props.optionTypes} 
+                        options={e.options}
+                        option={props.option}
+                        isNewQuestion={false}
+                        questionsCompleted={false}
+                        key={i}
+                    />
+                )
+            })}
+            {props.disabled && (<Question 
                 questionName={props.questionName}
                 type={props.optionType} 
                 optionTypes={props.optionTypes} 
                 options={props.options}
                 option={props.option}
-            />
+                isNewQuestion={true}
+                optionsCompleted={props.optionsCompleted}
+                questionsCompleted={props.questionsCompleted}
+            />)}
             <div className="flex items-center gap-x-[12px] mt-4">
               <div className="flex flex-col w-full mb-4">
-                <label>Tipo de pregunta</label>
-                <select className="p-2.5 rounded-[4px]">
-                  <option value="value1">Value 1</option>
-                  <option value="value2" >Value 2</option>
-                  <option value="value3">Value 3</option>
+                <label>Tus encuestas</label>
+                <select 
+                    className="p-2.5 rounded-[4px]"
+                    onClick={(e)=> {
+                        props.setSurveyId(Number(e.target.value))
+                    }}
+                >
+                    {props.surveys?.length > 0? 
+                        props.surveys.map((e, i)=> {
+                            return(
+                                <option value={e.id} key={i}>{e.title}</option>
+                            )
+                        }) 
+                    : 
+                        <option value={0}>No se encontraron encuestas</option>
+                    }
                 </select>
               </div>
               <button
                 className="bg-purple-400 text-white font-semibold py-2 px-4 mt-5 rounded-[8px] mb-[11px]"
+                onClick={()=> {
+                    props.setDisabled(false)
+                }}
               >
                 NUEVA ENCUESTA
               </button>
