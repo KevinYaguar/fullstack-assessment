@@ -121,6 +121,7 @@ function App() {
           surveys={surveys}
           setDisabled={setDisabled}
           setSurveyId={setSurveyId}
+          disabled={disabled}
         />
       </div>
     </>

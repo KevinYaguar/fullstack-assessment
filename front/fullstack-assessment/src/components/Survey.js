@@ -51,7 +51,7 @@ export const Survey = (props) => {
                     />
                 )
             })}
-            {props.disabled && (<Question 
+            {!props.disabled && (<Question 
                 questionName={props.questionName}
                 type={props.optionType} 
                 optionTypes={props.optionTypes} 
