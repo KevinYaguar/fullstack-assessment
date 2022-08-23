@@ -1,0 +1,29 @@
+CREATE DATABASE Surveys;
+
+CREATE TABLE Surveys.dbo.Surveys
+(
+    ID int IDENTITY(1,1) NOT NULL,
+    Title varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+    Description varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+    CONSTRAINT PK_Surveys PRIMARY KEY (ID)
+)
+GO
+
+CREATE TABLE Surveys.dbo.QuestionTypes
+(
+    ID int IDENTITY(1,1) NOT NULL,
+    Type varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+    CONSTRAINT PK_QuestionTypes PRIMARY KEY (ID)
+)
+GO
+
+CREATE TABLE Surveys.dbo.Questions
+(
+    ID int IDENTITY(1,1) NOT NULL,
+    Question varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+    QuestionType int NULL,
+    SurveyId int NULL,
+    CONSTRAINT FK_Questions_Questions FOREIGN KEY (QuestionType) REFERENCES Surveys.dbo.QuestionTypes (ID),
+    CONSTRAINT FK_Surveys_Surveys FOREIGN KEY (SurveyId) REFERENCES Surveys.dbo.Surveys (ID),
+)
+GO;
