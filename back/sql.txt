@@ -13,6 +13,7 @@ CREATE TABLE Surveys.dbo.QuestionTypes
 (
     ID int IDENTITY(1,1) NOT NULL,
     Type varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+    Name varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
     CONSTRAINT PK_QuestionTypes PRIMARY KEY (ID)
 )
 GO
@@ -21,9 +22,23 @@ CREATE TABLE Surveys.dbo.Questions
 (
     ID int IDENTITY(1,1) NOT NULL,
     Question varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-    QuestionType int NULL,
+    QuestionTypeId int NULL,
     SurveyId int NULL,
-    CONSTRAINT FK_Questions_Questions FOREIGN KEY (QuestionType) REFERENCES Surveys.dbo.QuestionTypes (ID),
+    CONSTRAINT FK_Questions_Questions FOREIGN KEY (QuestionTypeId) REFERENCES Surveys.dbo.QuestionTypes (ID),
     CONSTRAINT FK_Surveys_Surveys FOREIGN KEY (SurveyId) REFERENCES Surveys.dbo.Surveys (ID),
+    CONSTRAINT PK_Questions PRIMARY KEY (ID)
 )
 GO;
+
+CREATE TABLE Surveys.dbo.Options
+(
+    ID int IDENTITY(1,1) NOT NULL,
+    Options varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+    QuestionId int NULL,
+    CONSTRAINT FK_Options_Options FOREIGN KEY (QuestionId) REFERENCES Surveys.dbo.Questions (ID)
+)
+GO;
+
+INSERT INTO Surveys.dbo.QuestionTypes (Type, Name) VALUES ('radio', 'Opcion Simple')
+INSERT INTO Surveys.dbo.QuestionTypes (Type, Name) VALUES ('checkbox', 'Opcion Multiple')
+INSERT INTO Surveys.dbo.QuestionTypes (Type, Name) VALUES ('text', 'Texto')

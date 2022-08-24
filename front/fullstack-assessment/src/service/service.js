@@ -2,8 +2,9 @@ import axios from 'axios';
 
 const SURVEY_URLS = {
     GET_ALL_SURVEYS: `${process.env.REACT_APP_API_URL}/surveys`,
-    GET_ONE_SURVEY: (id) => `${process.env.REACT_APP_API_URL}/surveys/:${id}`,
+    GET_ONE_SURVEY: (id) => `${process.env.REACT_APP_API_URL}/surveys/${id}`,
     POST_SURVEY: `${process.env.REACT_APP_API_URL}/surveys`,
+    GET_ALL_OPTION_TYPES: `${process.env.REACT_APP_API_URL}/questionTypes`,
 };
 
 const surveysMock = [
@@ -28,7 +29,7 @@ const surveyMock = {
     question: [
         {
           id: 1,
-          questionName: 'Pregunta de Mock',
+          question: 'Pregunta de Mock',
           type: 1, 
           options: [
             {
@@ -46,8 +47,8 @@ const surveyMock = {
 
 export const getAllSurveys = async() => {
     try {
-        //const response = await axios.get(SURVEY_URLS.GET_ALL_SURVEYS);
-        return surveysMock; 
+        const response = await axios.get(SURVEY_URLS.GET_ALL_SURVEYS);
+        return response.data; 
     } catch (error) {
         throw new Error(error.response.data)
     }
@@ -55,8 +56,8 @@ export const getAllSurveys = async() => {
 
 export const getOneSurvey = async(id) => {
     try {
-        //const response = await axios.get(SURVEY_URLS.GET_ONE_SURVEY(id));
-        return surveyMock// response.data;
+        const response = await axios.get(SURVEY_URLS.GET_ONE_SURVEY(id));
+        return response.data;
     } catch (error) {
         throw new Error(error.response.data)
     }
@@ -69,4 +70,9 @@ export const postSurvey = async(values) => {
     } catch (error) {
         throw new Error(error.response.data)
     }
+}
+
+export const getAllOptionTypes = async() => {
+    const response = await axios.get(SURVEY_URLS.GET_ALL_OPTION_TYPES);
+    return response.data
 }

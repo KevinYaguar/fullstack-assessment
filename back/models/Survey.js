@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 
 export class Survey extends Model {}
 
@@ -10,7 +10,7 @@ export const init = (sequelize) => {
             autoIncrement: true,
             field: 'ID'
         },
-        Title: {
+        title: {
             type: DataTypes.STRING,
             get() {
                 const name = this.getDataValue('title');
@@ -18,7 +18,7 @@ export const init = (sequelize) => {
             },
             field: 'Title'
         },
-        Description: {
+        description: {
             type: DataTypes.STRING,
             get() {
                 const name = this.getDataValue('description');

@@ -1,7 +1,8 @@
 import { Sequelize } from 'sequelize';
 import { init as initSurvey } from './models/Survey.js';
-import { init as initQuestion } from './models/Question.js';
 import { init as initQuestionType } from './models/QuestionType.js';
+import { init as initQuestion } from './models/Question.js';
+import { init as initOption } from './models/Option.js';
 
 const testConnection = async (sequelize) => {
     try {
@@ -15,15 +16,16 @@ const testConnection = async (sequelize) => {
 
 const initModels = (sequelize) => {
     initSurvey(sequelize);
-    initQuestion(sequelize);
     initQuestionType(sequelize);
+    initQuestion(sequelize);
+    initOption(sequelize);
 }
 
 export const setupSequalizeConnection = async () => {
     const sequelize = new Sequelize(
         process.env.DB_NAME || '',
         process.env.USER_DB || 'sa',
-        process.env.DB_PASS || '',
+        process.env.PASSWORD_DB || '',
         {
             host: process.env.SERVER_DB || 'localhost',
             dialect: "mssql",

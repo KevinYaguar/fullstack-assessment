@@ -3,7 +3,6 @@ import { setupSequalizeConnection } from './db.js';
 import { startServer } from './server.js';
 
 dotenv.config();
-console.log('jiodihsofi')
 
 setupSequalizeConnection().then(conn => {
 

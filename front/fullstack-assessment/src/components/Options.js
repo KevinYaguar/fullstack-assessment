@@ -11,15 +11,15 @@ const SelectOption = ({option, type}) => {
 
 export const Options = (props) => {
 
-    const optionType = props.optionTypes.find(e => e.id === props.type).type
+    const optionType = props.optionTypes.find(e => e.id === props.type)?.type
 
-    if(props.type !== 3){
+    if(optionType !== 'text'){
         return (
             <div className="mt-2">
                 {
                     props.options.map((e, i)=> {
                         return (
-                            <SelectOption option={e.option} type={optionType} key={i}/>
+                            <SelectOption option={e.options} type={optionType} key={i}/>
                         )
                     })
                 }

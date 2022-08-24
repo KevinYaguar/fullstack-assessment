@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import { QuestionType } from './QuestionType.js';
 import { Survey } from './Survey.js';
 
@@ -12,7 +12,7 @@ export const init = (sequelize) => {
             autoIncrement: true,
             field: 'ID'
         },
-        Question: {
+        question: {
             type: DataTypes.STRING,
             get() {
                 const name = this.getDataValue('question');
@@ -27,12 +27,12 @@ export const init = (sequelize) => {
         timestamps: false,
         tableName: 'Questions',
     });
+    
+    Question.belongsTo(QuestionType, {
+        foreignKey: 'QuestionTypeId',
+    });
+
+    Question.belongsTo(Survey, {
+        foreignKey: 'SurveyId',
+    });
 }
-
-Question.belongsTo(QuestionType, {
-    foreignKey: 'Type',
-});
-
-Question.belongsTo(Survey, {
-    foreignKey: 'SurveyId',
-});

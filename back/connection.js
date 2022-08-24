@@ -1,4 +1,4 @@
-import { Connection, Request } from 'tedious'
+/*import { Connection, Request } from 'tedious'
 
 const config = {
   server: `${process.env.SERVER_DB}`,
@@ -6,7 +6,7 @@ const config = {
     type: 'default',
     options: {
       userName:  `${process.env.USER_DB}`,
-      password:  `${process.env.ALZm2011}`
+      password:  `${process.env.PASSWORD_DB}`
     }
   },
   options: {
@@ -39,4 +39,4 @@ function createDatabase() {
         }
     });
     connection.execSql(request);
-}
+}*/

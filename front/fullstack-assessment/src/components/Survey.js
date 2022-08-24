@@ -2,11 +2,11 @@ import React from 'react';
 import { Options } from './Options';
 
 const Question = (props) => {
-
+  console.log(props)
     if(!props.questionsCompleted) {
         return (
             <div className="flex flex-col">
-                <span className="font-semibold text-black">{props.questionName}</span>
+                <span className="font-semibold text-black">{props.question}</span>
                 <Options 
                     type={props.type} 
                     optionTypes={props.optionTypes} 
@@ -37,11 +37,11 @@ export const Survey = (props) => {
                 {props.description}
             </span>
             {props.questions.map((e, i)=> {
-
+              console.log(e)
                 return (
                     <Question
-                        questionName={e.questionName}
-                        type={e.type} 
+                        question={e.question}
+                        type={e.QuestionType? e.QuestionType?.id : e.questionType} 
                         optionTypes={props.optionTypes} 
                         options={e.options}
                         option={props.option}
@@ -51,16 +51,20 @@ export const Survey = (props) => {
                     />
                 )
             })}
-            {!props.disabled && (<Question 
-                questionName={props.questionName}
-                type={props.optionType} 
-                optionTypes={props.optionTypes} 
-                options={props.options}
-                option={props.option}
-                isNewQuestion={true}
-                optionsCompleted={props.optionsCompleted}
-                questionsCompleted={props.questionsCompleted}
-            />)}
+            {!props.disabled && 
+              ( 
+                <Question 
+                    question={props.question}
+                    type={props.questionType} 
+                    optionTypes={props.optionTypes} 
+                    options={props.options}
+                    option={props.option}
+                    isNewQuestion={true}
+                    optionsCompleted={props.optionsCompleted}
+                    questionsCompleted={props.questionsCompleted}
+                />
+              )
+            }
             <div className="flex items-center gap-x-[12px] mt-4">
               <div className="flex flex-col w-full mb-4">
                 <label>Tus encuestas</label>
@@ -68,6 +72,7 @@ export const Survey = (props) => {
                     className="p-2.5 rounded-[4px]"
                     onClick={(e)=> {
                         props.setSurveyId(Number(e.target.value))
+                        props.setDisabled(true)
                     }}
                 >
                     {props.surveys?.length > 0? 

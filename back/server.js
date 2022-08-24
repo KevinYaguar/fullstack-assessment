@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import SurveysController from './controllers/SurveysController.js'
+import QuestionTypesController from './controllers/QuestionTypesController.js'
 
 export const startServer = (conn) => {
 
@@ -23,8 +24,10 @@ export const startServer = (conn) => {
     });
 
     app.get('/surveys', SurveysController.getAll)
-    //app.get('/surveys/:id', SurveysController.getOne)
-    //app.post('/surveys', SurveysController.store)
+    app.get('/surveys/:id', SurveysController.getOne)
+    app.post('/surveys', SurveysController.store)
+
+    app.get('/questionTypes', QuestionTypesController.getAll)
 
 
     app.listen(process.env.PORT, () => {

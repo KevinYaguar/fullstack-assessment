@@ -1,10 +1,11 @@
 import React from 'react';
+import { postSurvey } from '../service/service';
 
 const OptionInput = (props) => {
 
-    const {option, setOption, setter, options, optionId, setOptions, optionsCompleted, setOptionsCompleted, optionType, disabled} = props;
+    const {option, setOption, setter, options, optionId, setOptions, optionsCompleted, setOptionsCompleted, questionType, disabled} = props;
 
-    if(!optionsCompleted && optionType !== 3){
+    if(!optionsCompleted && questionType !== 3){
         return (
             <div className="flex flex-col w-full mb-4 relative">
                 <label>{`${optionId? 'Opción ' + optionId : 'Nueva opción'}`}</label>
@@ -39,6 +40,14 @@ const OptionInput = (props) => {
 }
 
 export const SurveyMaker = (props) => {
+
+    const handleCreateSurvey = async(values) => {
+        try {
+            await postSurvey(values);
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     return (
         <div className="w-1/2 flex flex-col shadow">
@@ -87,7 +96,7 @@ export const SurveyMaker = (props) => {
                             <label>Tipo de pregunta</label>
                             <select 
                                 className="p-2.5 rounded-[4px]" 
-                                value={props.optionType}
+                                value={props.questionType}
                                 onChange={(e)=> {
                                     props.setOptionType(Number(e.target.value))
                                 }}
@@ -111,7 +120,7 @@ export const SurveyMaker = (props) => {
                                 disabled={props.disabled}
                                 className="p-2.5 rounded-[4px]"
                                 type="text"
-                                placeholder={`${props.questionName}`}
+                                placeholder={`${props.question}`}
                                 onChange={((e)=> {
                                     props.setQuestionName(e.target.value)
                                 })}
@@ -122,13 +131,13 @@ export const SurveyMaker = (props) => {
                             props.options.map((e, i)=> {
                                 return (
                                     <OptionInput 
-                                        option={e.option} 
+                                        option={e.options} 
                                         setOption={props.setOption}
                                         options={props.options}
                                         key={i}
                                         optionId={e.id}
                                         setOptions={props.setOptions}
-                                        optionType={props.optionType}
+                                        questionType={props.questionType}
                                         disabled={props.disabled}
                                     />
                                 )
@@ -140,7 +149,7 @@ export const SurveyMaker = (props) => {
                             setter={true}
                             setOptionsCompleted={props.setOptionsCompleted}
                             optionsCompleted={props.optionsCompleted}
-                            optionType={props.optionType}
+                            questionType={props.questionType}
                             key={0}
                             disabled={props.disabled}
                         />
@@ -155,7 +164,7 @@ export const SurveyMaker = (props) => {
                                     ...props.options,
                                     {
                                         id: newId,
-                                        option: props.option
+                                        options: props.option
                                     }
                                 ])
                                 props.setOptionsCompleted(false)
@@ -179,8 +188,8 @@ export const SurveyMaker = (props) => {
                                 ...props.questions,
                                 {
                                     id: newId,
-                                    questionName: props.questionName,
-                                    type: props.optionType,
+                                    question: props.question,
+                                    questionType: props.questionType,
                                     options: props.options
                                 }
                             ])
@@ -199,15 +208,16 @@ export const SurveyMaker = (props) => {
                         disabled={props.disabled}
                         className="bg-purple-400 text-white font-semibold py-2 px-3 mt-5 rounded-[8px]" 
                         onClick={()=> {
-                            props.setNewSurvey(
-                                {
-                                    surveyTitle: props.title,
-                                    description: props.description,
-                                    questions: props.questions
-                                }
-                            )
-                            //console.log(props.newSurvey)
+                            const newSurvey = {
+                                title: props.title,
+                                description: props.description,
+                                questions: props.questions
+                            }
+                            props.setNewSurvey(newSurvey)
+                            handleCreateSurvey(newSurvey)
                             props.setDisabled(true)
+                            props.setQuestions([])
+                            props.setOptions([])
                         }}
                     >
                         Crear encuesta

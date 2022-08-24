@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 
 export class QuestionType extends Model {}
 
@@ -10,13 +10,21 @@ export const init = (sequelize) => {
             autoIncrement: true,
             field: 'ID'
         },
-        Type: {
+        type: {
             type: DataTypes.STRING,
             get() {
                 const name = this.getDataValue('type');
                 return name.trim()
             },
             field: 'Type'
+        },
+        name: {
+            type: DataTypes.STRING,
+            get() {
+                const name = this.getDataValue('name');
+                return name.trim()
+            },
+            field: 'Name'
         },
     },
     {
